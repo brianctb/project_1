@@ -3,6 +3,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.http import Http404
 from django.urls import reverse
 from django.views.generic import TemplateView
+from pages.models import Item, ToDoList
 
 def homePageView(request):
     # return request object and specify page.
@@ -77,3 +78,13 @@ def aboutPageView(request):
 
 def firstNameView(request):
     return render(request, 'brian.html')
+
+def todos(request):
+    items = Item.objects
+    itemErrandDetail = items.select_related('todolist')
+    print(itemErrandDetail[0].todolist.name)
+    print(itemErrandDetail[0].text)
+    print(itemErrandDetail[0].id)
+    return render(request, 'ToDoItems.html',
+                {'ToDoItemDetail': itemErrandDetail})
+
